@@ -1,0 +1,86 @@
+#wip
+
+import pygame
+
+pygame.init()
+
+
+class Game:
+    """Handles game stuff"""
+    DISPLAY_MODE = 1
+    GAME_WIDTH = 480
+    GAME_HEIGHT = 360
+    FPS = 60
+
+    def __init__(self):
+        """Uh this initializes stuff."""
+        # Window setup
+        sizes = pygame.display.get_desktop_sizes()
+        game_scale = sizes[0][1] // self.GAME_HEIGHT
+        window_width = game_scale * self.GAME_WIDTH
+        window_height = game_scale * self.GAME_HEIGHT
+        self.display = pygame.display.set_mode((window_width, window_height))
+        caption = "Platformer"
+        pygame.display.set_caption(caption)
+        # icon = pygame.image.load(r"images\general\icon.png").convert()
+        # pygame.display.set_icon(icon)
+        # Mouse
+        pygame.mouse.set_visible(False)
+        # General game stuff
+        # self.settings = json.load(open(r"scripts\settings.json"))
+        self.clock = pygame.time.Clock()
+        self.FPS = self.settings["FPS"]
+        player_bindings = self.settings['key_bindings']
+        self.bindings = [keys[player_bindings[0]],
+                         keys[player_bindings[1]],
+                         keys[player_bindings[2]],
+                         keys[player_bindings[3]]]
+        # Delta time
+        self.dt = 0
+        self.last_time = 0
+
+    def _render_all(self):
+        """Renders everything."""
+
+
+    def _update_all(self):
+        """Updates everything."""
+     
+
+   
+    def run(self):
+        """Handles the game loop."""
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if mouse.get_pressed()[0] == 1:
+                        self.player.gun.mouse_down = True
+                    else:
+                        self.player.gun.mouse_down = False
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self.player.gun.mouse_down = False
+                if event.type == pygame.MOUSEWHEEL:
+                    if event.y < 0:
+                        self.player.gun_num += -1 if self.player.gun_num - 1 > 0 else 3
+                    else:
+                        self.player.gun_num += 1 if self.player.gun_num + 1 < 5 else -3
+            # Player movement y
+      
+            self._update_all()
+            self._render_all()
+            self.clock.tick(self.FPS)
+            pygame.display.update()
+
+        pygame.quit()
+        sys.exit()
+
+
+if __name__ == "__main__":
+    g = Game()
+    g.run()
